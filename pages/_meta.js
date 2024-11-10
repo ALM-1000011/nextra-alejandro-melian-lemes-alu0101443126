@@ -3,5 +3,6 @@ export default {
     sopapollo: 'Sopa de Pollo',
     sopazanahoria: 'Sopa de Zanahoria',
     sopacebolla: 'Sopa de Cebolla',
-    sancocho: 'Sancocho'
+    sancocho: 'Sancocho',
+    caldoverde: 'Caldo Verde'
   }
