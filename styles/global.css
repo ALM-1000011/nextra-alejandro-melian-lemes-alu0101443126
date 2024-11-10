@@ -6,20 +6,3 @@
     margin-left: -50vw;
     margin-right: -50vw;
 }
-
-.callout {
-    padding: 1em;
-    border-radius: 4px;
-    margin: 1em 0;
-  }
-  
-  .callout.info {
-    background-color: #e0f7fa;
-    border: 1px solid #4dd0e1;
-  }
-  
-  .callout.warning {
-    background-color: #fff3e0;
-    border: 1px solid #ffb74d;
-  }
-  
