@@ -1,0 +1,330 @@
+---
+title: Informe Práctica 6
+description: Informe de la práctica 06 'Introducción a Nextra'.
+date: 2024-11-10
+tags:
+  - Nextra
+  - Next.js
+  - Vercel
+---
+## Sobre la Práctica.
+
+En esta práctica hemos realizado una introducción a otro SSG como lo es Nextra.
+
+Nextra es un SSG basado en Next.js, que nos permite crear sitios web estáticos de forma sencilla y rápida.
+Para introducirnos con algunas características se ha creado un total de siete páginas, cada una con un contenido y características diferentes.
+
+## Bleed
+
+La primera página que hemos creado es la página bleed, en la que hemos utilizado la propiedad bleed de Nextra para que la imagen de fondo ocupe todo el ancho de la pantalla.
+Para empezar, definimos un estilo en el archivo `styles/bleed.css` para que la imagen de fondo se muestre en toda la pantalla:
+
+```css
+.bleed {
+  width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.bleed img {
+  width: 100%;
+  height: auto;
+}
+```
+Lo importamos en el archivo `_app.jx` para que se aplique a todas las páginas. Y lo usamos en nuestra página `sopapollo.mdx`:
+
+```mdx
+<div class="bleed">
+    <img src="/images/sopa-de-pollo.jpg" alt="Imagen de una sopa de Pollo" />
+</div>
+```
+
+## Callout
+
+La segunda página que hemos creado es la página Sopa de Zanahoria, en la que hemos utilizado la propiedad callout de Nextra para mostrar un mensaje destacado.
+Para ello, hemos creado un componente `Callout` en el archivo `components/Callout.jsx`:
+
+```jsx
+import styles from '../styles/Callout.module.css'
+
+export default function Callout({ children, type = 'info', emoji }) {
+  return (
+    <div className={`${styles.callout} ${styles[type]}`}>
+      {emoji && <span className={styles.emoji}>{emoji}</span>}
+      {children}
+    </div>
+  )
+}
+```
+
+Definimos un fichero de estilo `styles/Callout.module.css` para darle estilo al componente:
+
+```css
+.callout {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.callout.info {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+  color: #0c5460;
+}
+
+.callout.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+
+.emoji {
+  margin-right: 0.5rem;
+}
+```
+
+Y lo usamos en nuestra página `sopazanahoria.mdx`:
+
+```mdx
+<Callout type="info" emoji="ℹ️">
+  **Dato curioso**: La zanahoria solía ser de colores morados y rojos antes de que la variedad naranja se volviera dominante.
+</Callout>
+```
+
+## Cards
+
+Sobre la misma página `sopazanahoria.mdx` hemos utilizado la propiedad cards de Nextra para mostrar una lista de tarjetas.
+Para ello, hemos creado un componente `Cards` en el archivo `components/Cards.jsx`:
+
+```jsx
+export default function Cards({ children }) {
+  return (
+    <div className="cards-container">
+      {children}
+    </div>
+  );
+}
+```
+
+Definimos un fichero de estilo `styles/Card.module.css` para darle estilo al componente:
+
+```css
+/* components/Card.module.css */
+.cards-container {
+    display: flex;
+    gap: 1rem;
+  }
+  .card {
+    padding: 1rem;
+    background: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: scale(1.05);
+  }
+```
+
+Y lo usamos en nuestra página `sopazanahoria.mdx`:
+
+```mdx
+<Cards>
+  <div className="card">
+    <h3>Beneficio 1</h3>
+    <p>La sopa de zanahoria es rica en antioxidantes.</p>
+  </div>
+  <div className="card">
+    <h3>Beneficio 2</h3>
+    <p>Es baja en calorías.</p>
+  </div>
+  <div className="card">
+    <h3>Beneficio 3</h3>
+    <p>Contiene una gran cantidad de fibra.</p>
+  </div>
+</Cards>
+```
+
+## EvaluarExpresion
+
+La tercera página que hemos creado es la página Caldo Verde, en la que hemos utilizado la propiedad 
+EvaluarExpresion de Nextra para evaluar una expresión en JavaScript.
+
+Para ello, hemos creado un componente `EvaluarExpresion` en el archivo `components/EvaluarExpresion.jsx`:
+
+```jsx
+import { evaluate } from 'mathjs';
+import { useState } from 'react';
+
+export default function EvaluarExpresion() {
+    const [input, setInput] = useState('');
+    const [result, setResult] = useState(null);
+
+    const handleEvaluate = () => {
+        try {
+            setResult(evaluate(input));
+        } catch {
+            setResult('Error en la expresión');
+        }
+    };
+
+    return (
+        <div>
+            <h2>Cálculo de Ingredientes</h2>
+            <input
+                type="text"
+                placeholder="Introduce una expresión (ej. 3 * 200 gramos)"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+            />
+            <button onClick={handleEvaluate}>Calcular</button>
+            <p>Resultado: {result}</p>
+        </div>
+    );
+}
+```
+
+Y lo usamos en nuestra página `sopacebolla.mdx`:
+
+```mdx
+## Calcula los Ingredientes para la Sopa de Cebolla
+
+<EvaluarExpresion />
+```
+
+## CodeExtension
+
+Sobre la misma página del Caldo verde hemos utilizado la propiedad CodeExtension para mostrar código de manera correcta.
+Para ello, simplemente abrimos comillas triples y especificamos el lenguaje de programación.
+
+## File Trees
+
+Durante el desarrollo de la práctica hemos utilizado la propiedad File Trees de Nextra para mostrar la estructura de archivos de nuestro proyecto.
+
+## Frontmatter
+
+En cada página hemos utilizado el frontmatter para definir metadatos como el título, descripción, fecha y etiquetas de la página.
+
+## Heroicons.
+
+Para añadir iconos a nuestra página hemos utilizado Heroicons, una librería de iconos para React.
+Definimos un componente `IconButton` en el archivo `components/IconButton.jsx`:
+
+```jsx
+const IconButton = ({ label, href }) => {
+  return (
+    <a href={href} className="flex items-center space-x-2 p-2 border rounded">
+      <MailIcon className="h-5 w-5 text-gray-500" />
+      <span>{label}</span>
+    </a>
+  )
+}
+
+export default IconButton
+```
+
+Y lo usamos en nuestra página `index.mdx`:
+
+```mdx
+Si tiene alguna duda con respecto a mi desarrollo de la práctica, 
+no dude en ponerse en contacto conmigo a través de mi correo electrónico.
+
+<IconButton label="Enviar un correo" href="mailto:alu0101443126@gmail.com" />
+```
+
+## iframe
+
+Para añadir un video de youtube hemos utilizado la propiedad iframe de Nextra.
+Para ello, simplemente añadimos el código del iframe en nuestra página `sancocho.mdx`:
+
+```mdx
+## Video sobre el Sancocho
+
+Aquí tienes un video sobre cómo preparar un sancocho:
+
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=DPr7wRpkpLc&ab_channel=RositaCocina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+```
+
+## Markdown import
+
+Para reutilizar componentes y fragmentos de código hemos utilizado la propiedad Markdown import de Nextra.
+Por ejemplo, hemos importado el componente `EvaluarExpresion` en la página `caldoverde.mdx`:
+
+```mdx
+import EvaluarExpresion from '../components/EvaluarExpresion'
+```
+
+## Mermaid
+
+En la página `sancocho.mdx` hemos utilizado la propiedad Mermaid de Nextra para mostrar un diagrama de flujo.
+Primero definimos el archivo `components/Mermaid.jsx`:
+
+```jsx
+const Mermaid = ({ chart }) => {
+  useEffect(() => {
+    mermaid.initialize({ startOnLoad: true });
+    mermaid.contentLoaded();
+  }, [chart]);
+
+  return <div className="mermaid">{chart}</div>;
+};
+
+export default Mermaid;
+```
+
+Y lo usamos en nuestra página `caldoverde.mdx`:
+
+```mdx
+# Diagrama de flujo con Mermaid
+
+<Mermaid chart={`
+graph TD;
+    CalentarAceite-->SofreirCebollaYAjo;
+    SofreirCebollaYAjo-->AgregarPapasYAgua;
+    AgregarPapasYAgua-->CocinarHastaTiernas;
+    CocinarHastaTiernas-->CocinarChorizo;
+    CocinarChorizo-->HacerPure;
+    HacerPure-->AgregarColRizada;
+    AgregarColRizada-->CocinarCol;
+    CocinarCol-->AgregarChorizo;
+    AgregarChorizo-->SazonarYServir;
+`} />
+
+```
+
+## Using Components (MDX) 
+
+La mayoría de las características sino todas, han sido implementadas utilizando componentes de React, lo que nos permite reutilizar código y mantener una estructura limpia y organizada.
+Estos componentes se encuentran en el directorio `components` y se importan en las páginas MDX según sea necesario.
+Los componentes son una forma poderosa de extender las capacidades de Nextra y personalizar el contenido de las páginas.
+
+## useConfig
+
+Para acceder a la configuración de Nextra hemos utilizado el hook useConfig, que nos permite acceder a la configuración global del sitio.
+Por ejemplo, hemos utilizado useConfig para acceder al título del sitio en el componente `Header`:
+
+```jsx
+import useConfig from 'use-config';
+
+const Header = () => {
+  const { title } = useConfig();
+
+  return (
+    <header>
+      <h1>{title}</h1>
+    </header>
+  );
+};
+
+export default Header;
+```
+
+## Conclusiones
+
+En esta práctica hemos aprendido a utilizar Nextra para generar sitios web estáticos con Next.js.
+Nextra es una herramienta muy potente y fácil de usar que permite crear sitios web estáticos de forma rápida y sencilla.
+Además, hemos explorado algunas de las características más interesantes de Nextra, como la propiedad bleed, callout, cards, evaluarExpresion, codeExtension, fileTrees, frontmatter, heroicons, iframe, markdown import, mermaid y useConfig.
+Estas características nos permiten personalizar el contenido de las páginas y añadir funcionalidades avanzadas a nuestro sitio web.
+
+

@@ -1,0 +1,11 @@
+/* styles/bleed.css */
+.bleed {
+  width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.bleed img {
+  width: 100%;
+  height: auto;
+}
