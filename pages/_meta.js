@@ -4,5 +4,6 @@ export default {
     sopazanahoria: 'Sopa de Zanahoria',
     sopacebolla: 'Sopa de Cebolla',
     sancocho: 'Sancocho',
-    caldoverde: 'Caldo Verde'
+    caldoverde: 'Caldo Verde',
+    grafoejemplo: 'Grafo de ejemplo'
   }

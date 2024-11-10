@@ -8,6 +8,7 @@ tags:
   - caldo verde
 ---
 
+import Mermaid from '../components/Mermaid'
 import Alert from '../components/Alert'
 
 ## La historia del Caldo Verde
@@ -42,5 +43,20 @@ Los ingredientes básicos del caldo verde son:
 5. Agrega la col rizada a la sopa y cocina a fuego lento durante unos 10 minutos, o hasta que la col esté tierna.
 6. Añade el chorizo dorado a la sopa y mezcla bien.
 7. Sazona con sal al gusto y sirve caliente.
+
+# Diagrama de flujo con Mermaid
+
+<Mermaid chart={`
+graph TD;
+    CalentarAceite-->SofreirCebollaYAjo;
+    SofreirCebollaYAjo-->AgregarPapasYAgua;
+    AgregarPapasYAgua-->CocinarHastaTiernas;
+    CocinarHastaTiernas-->CocinarChorizo;
+    CocinarChorizo-->HacerPure;
+    HacerPure-->AgregarColRizada;
+    AgregarColRizada-->CocinarCol;
+    CocinarCol-->AgregarChorizo;
+    AgregarChorizo-->SazonarYServir;
+`} />
 
 ¡Disfruta de tu delicioso caldo verde!

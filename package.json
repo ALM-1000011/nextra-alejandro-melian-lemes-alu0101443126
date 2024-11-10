@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "@mermaid-js/mermaid-cli": "^11.4.0",
     "mathjs": "^13.2.1",
     "next": "^15.0.3",
     "nextra": "^3.2.3",
