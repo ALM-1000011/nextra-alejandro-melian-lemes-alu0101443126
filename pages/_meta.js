@@ -1,4 +1,6 @@
 export default {
     index: 'Homepage',
-    sopapollo: 'Sopa de Pollo'
+    sopapollo: 'Sopa de Pollo',
+    sopazanahoria: 'Sopa de Zanahoria',
+    sopacebolla: 'Sopa de Cebolla'
   }
