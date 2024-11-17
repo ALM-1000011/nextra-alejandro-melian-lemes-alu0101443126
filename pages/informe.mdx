@@ -16,8 +16,19 @@ Para introducirnos con algunas características se ha creado un total de siete p
 
 ## Bleed
 
-La primera página que hemos creado es la página bleed, en la que hemos utilizado la propiedad bleed de Nextra para que la imagen de fondo ocupe todo el ancho de la pantalla.
-Para empezar, definimos un estilo en el archivo `styles/bleed.css` para que la imagen de fondo se muestre en toda la pantalla:
+Para la implementación de bleed hemos creado un componente `Bleed` en el archivo `components/Bleed.jsx`:
+  
+```jsx
+import React from 'react';
+import styles from './Bleed.module.css';
+
+const Bleed = ({ children }) => {
+  return <div className={styles.bleed}>{children}</div>;
+};
+
+export default Bleed;
+```
+También, creando un archivo de estilo `bleed.css` para darle estilo al componente:
 
 ```css
 .bleed {
@@ -31,12 +42,13 @@ Para empezar, definimos un estilo en el archivo `styles/bleed.css` para que la i
   height: auto;
 }
 ```
-Lo importamos en el archivo `_app.jx` para que se aplique a todas las páginas. Y lo usamos en nuestra página `sopapollo.mdx`:
+
+Y lo usamos en nuestra página `sopapollo.mdx`:
 
 ```mdx
-<div class="bleed">
-    <img src="/images/sopa-de-pollo.jpg" alt="Imagen de una sopa de Pollo" />
-</div>
+<Bleed>
+  <img src="/images/sopa-de-pollo.jpg" alt="Imagen de una sopa de Pollo" />
+</Bleed>
 ```
 
 ## Callout
@@ -93,58 +105,7 @@ Y lo usamos en nuestra página `sopazanahoria.mdx`:
 
 ## Cards
 
-Sobre la misma página `sopazanahoria.mdx` hemos utilizado la propiedad cards de Nextra para mostrar una lista de tarjetas.
-Para ello, hemos creado un componente `Cards` en el archivo `components/Cards.jsx`:
 
-```jsx
-export default function Cards({ children }) {
-  return (
-    <div className="cards-container">
-      {children}
-    </div>
-  );
-}
-```
-
-Definimos un fichero de estilo `styles/Card.module.css` para darle estilo al componente:
-
-```css
-/* components/Card.module.css */
-.cards-container {
-    display: flex;
-    gap: 1rem;
-  }
-  .card {
-    padding: 1rem;
-    background: #f3f3f3;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-  }
-  .card:hover {
-    transform: scale(1.05);
-  }
-```
-
-Y lo usamos en nuestra página `sopazanahoria.mdx`:
-
-```mdx
-<Cards>
-  <div className="card">
-    <h3>Beneficio 1</h3>
-    <p>La sopa de zanahoria es rica en antioxidantes.</p>
-  </div>
-  <div className="card">
-    <h3>Beneficio 2</h3>
-    <p>Es baja en calorías.</p>
-  </div>
-  <div className="card">
-    <h3>Beneficio 3</h3>
-    <p>Contiene una gran cantidad de fibra.</p>
-  </div>
-</Cards>
-```
 
 ## EvaluarExpresion
 
