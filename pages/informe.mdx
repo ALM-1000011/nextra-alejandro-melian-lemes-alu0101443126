@@ -216,11 +216,124 @@ Para ello, simplemente abrimos comillas triples y especificamos el lenguaje de p
 
 ## File Trees
 
-Durante el desarrollo de la práctica hemos utilizado la propiedad File Trees de Nextra para mostrar la estructura de archivos de nuestro proyecto.
+Para mostrar la estructura de directorios de nuestro proyecto hemos creado un componente `FileTree` en el archivo `components/FileTree.jsx`:
+
+```jsx
+// components/FileTree.jsx
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styles from '../styles/FileTree.module.css';
+
+const Folder = ({ name, children, defaultOpen }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div className={styles.folder}>
+      <div className={styles.folderName} onClick={toggleOpen}>
+        {isOpen ? '📂' : '📁'} {name}
+      </div>
+      {isOpen && <div className={styles.folderContent}>{children}</div>}
+    </div>
+  );
+};
+
+Folder.propTypes = {
+  name: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  defaultOpen: PropTypes.bool,
+};
+
+const File = ({ name }) => {
+  return <div className={styles.file}>📄 {name}</div>;
+};
+
+File.propTypes = {
+  name: PropTypes.string.isRequired,
+};
+
+const FileTree = ({ children }) => {
+  return <div className={styles.fileTree}>{children}</div>;
+};
+
+FileTree.Folder = Folder;
+FileTree.File = File;
+
+FileTree.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default FileTree;
+```
+Definiendo también un archivo de estilos `styles/FileTree.module.css` para darle estilo al componente:
+
+```css
+/* components/FileTree.module.css */
+.fileTree {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.folder {
+  margin-left: 20px;
+}
+
+.folderName {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.folderContent {
+  margin-left: 20px;
+}
+
+.file {
+  margin-left: 20px;
+}
+```
+
+Y lo usamos en nuestra página `sopacebolla.mdx`:
+
+```mdx
+## Ejemplo de File Tree
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="caldoverde.mdx" />
+    <FileTree.File name="gachas.mdx" />
+    <FileTree.File name="sancocho.mdx" />
+    <FileTree.File name="sopacebolla.mdx" />
+    <FileTree.File name="sopazanahoria.mdx" />
+    <FileTree.File name="sopapollo.mdx" />
+  <FileTree.Folder name="syles" defaultOpen>
+    <FileTree.File name="bleed.css" />
+    <FileTree.File name="Callout.module.css" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+```
+
+Los File Trees son una forma visual y clara de mostrar la estructura de directorios de un proyecto, y son muy útiles para documentar y compartir información sobre la organización de los archivos.
 
 ## Frontmatter
 
-En cada página hemos utilizado el frontmatter para definir metadatos como el título, descripción, fecha y etiquetas de la página.
+En la página sancocho hemos definido un frontmatter, y luego en la página hemos accedido a los datos del frontmatter para mostrar el título y la descripción de la página:
+
+```mdx
+---
+title: Sancocho
+description: Una descripción breve sobre la historia y beneficios del sancocho.
+date: 2024-11-10
+tags:
+  - comida
+  - recetas
+  - sancocho
+---
+
+
 
 ## Heroicons.
 

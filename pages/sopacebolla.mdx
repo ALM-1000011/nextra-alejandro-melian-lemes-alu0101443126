@@ -8,6 +8,8 @@ tags:
   - sopa
 ---
 
+import FileTree from '../components/FileTree';
+
 ## Historia de la Sopa de Cebolla
 
 La sopa de cebolla es un plato tradicional que se ha consumido en todo el mundo durante siglos. Se cree que la sopa de cebolla 
@@ -40,9 +42,7 @@ function hacerSopa(ingredientes) {
 }
 hacerSopa(ingredientes);
 ```
-## Ejemplo de EvaluarExpresion (Interpolación)
-
-Para evaluar una expresión en una sopa de cebolla, puedes usar la siguiente expresión:
+## Ejemplo de interpolación de expresión
 
 ```javascript
 // Ejemplo de interpolación de expresión
@@ -50,3 +50,21 @@ let tiempoCoccion = 30;
 let tiempoTotal = tiempoCoccion * 2;
 console.log(`El tiempo total de cocción es de ${tiempoTotal} minutos.`);
 ```
+
+## Ejemplo de File Tree
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="_meta.json" />
+    <FileTree.File name="caldoverde.mdx" />
+    <FileTree.File name="gachas.mdx" />
+    <FileTree.File name="sancocho.mdx" />
+    <FileTree.File name="sopacebolla.mdx" />
+    <FileTree.File name="sopazanahoria.mdx" />
+    <FileTree.File name="sopapollo.mdx" />
+  <FileTree.Folder name="syles" defaultOpen>
+    <FileTree.File name="bleed.css" />
+    <FileTree.File name="Callout.module.css" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>

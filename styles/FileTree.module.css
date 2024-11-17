@@ -1,0 +1,22 @@
+/* components/FileTree.module.css */
+.fileTree {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.folder {
+  margin-left: 20px;
+}
+
+.folderName {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.folderContent {
+  margin-left: 20px;
+}
+
+.file {
+  margin-left: 20px;
+}
