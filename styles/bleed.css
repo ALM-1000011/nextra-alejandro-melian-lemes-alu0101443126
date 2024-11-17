@@ -1,4 +1,4 @@
-/* styles/bleed.css */
+/* components/Bleed.module.css */
 .bleed {
   width: 100%;
   margin-left: calc(50% - 50vw);
