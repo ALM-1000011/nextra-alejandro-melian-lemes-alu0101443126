@@ -198,50 +198,16 @@ Las cards son una forma de mostrar información de manera visual y atractiva, y 
 
 ## EvaluarExpresion
 
-La tercera página que hemos creado es la página Caldo Verde, en la que hemos utilizado la propiedad 
-EvaluarExpresion de Nextra para evaluar una expresión en JavaScript.
+EvaluarExpresion hace referencia a la interpolación de expresiones en javascript.
+Para ello, en el archivo sopadecebolla hemos definido un bloque de ejemplo de pseudocódigo en javascript:
 
-Para ello, hemos creado un componente `EvaluarExpresion` en el archivo `components/EvaluarExpresion.jsx`:
-
-```jsx
-import { evaluate } from 'mathjs';
-import { useState } from 'react';
-
-export default function EvaluarExpresion() {
-    const [input, setInput] = useState('');
-    const [result, setResult] = useState(null);
-
-    const handleEvaluate = () => {
-        try {
-            setResult(evaluate(input));
-        } catch {
-            setResult('Error en la expresión');
-        }
-    };
-
-    return (
-        <div>
-            <h2>Cálculo de Ingredientes</h2>
-            <input
-                type="text"
-                placeholder="Introduce una expresión (ej. 3 * 200 gramos)"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-            />
-            <button onClick={handleEvaluate}>Calcular</button>
-            <p>Resultado: {result}</p>
-        </div>
-    );
-}
+```javascript
+// Ejemplo de interpolación de expresión
+let tiempoCoccion = 30;
+let tiempoTotal = tiempoCoccion * 2;
+console.log(`El tiempo total de cocción es de ${tiempoTotal} minutos.`);
 ```
-
-Y lo usamos en nuestra página `sopacebolla.mdx`:
-
-```mdx
-## Calcula los Ingredientes para la Sopa de Cebolla
-
-<EvaluarExpresion />
-```
+La parte interesante de este bloque es la interpolación de la expresión `${tiempoTotal}`, que nos permite evaluar la expresión y mostrar el resultado en el mensaje.
 
 ## CodeExtension
 
