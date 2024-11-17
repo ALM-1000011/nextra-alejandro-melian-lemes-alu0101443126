@@ -7,6 +7,9 @@ tags:
   - Next.js
   - Vercel
 ---
+
+import TaskList from '../includes/task-list.mdx';
+ 
 ## Sobre la Práctica.
 
 En esta práctica hemos realizado una introducción a otro SSG como lo es Nextra.
@@ -211,8 +214,9 @@ La parte interesante de este bloque es la interpolación de la expresión `${tie
 
 ## CodeExtension
 
-Sobre la misma página del Caldo verde hemos utilizado la propiedad CodeExtension para mostrar código de manera correcta.
-Para ello, simplemente abrimos comillas triples y especificamos el lenguaje de programación.
+En la página sopacebolla hemos utilizado la propiedad codeExtension de Nextra para mostrar un bloque de código con posibilidad a copiar el código, mostrar el número de líneas,
+mostrar un nombre del bloque de código y remarcar una línea en específico.
+Accede al bloque aquí [CodeExtension.js](./sopacebolla.mdx#final)
 
 ## File Trees
 
@@ -393,12 +397,9 @@ Aquí tienes un video sobre cómo preparar un sancocho:
 
 ## Markdown import
 
-Para reutilizar componentes y fragmentos de código hemos utilizado la propiedad Markdown import de Nextra.
-Por ejemplo, hemos importado el componente `EvaluarExpresion` en la página `caldoverde.mdx`:
+Para esta tarea mostraré un ejemplo de una lista de tareas. Que ejemplifica el uso de la propiedad de import de markdown.
 
-```mdx
-import EvaluarExpresion from '../components/EvaluarExpresion'
-```
+<TaskList />
 
 ## Mermaid
 
