@@ -6,8 +6,8 @@ const CustomFooter = () => {
 
   return (
     <footer>
-      <p>{config.footer.text}</p>
-      <a href={config.project.link}>Proyecto en GitHub</a>
+      {config.footer?.text && <p>{config.footer.text}</p>}
+      {config.project?.link && <a href={config.project.link}>Proyecto en GitHub</a>}
     </footer>
   )
 }
