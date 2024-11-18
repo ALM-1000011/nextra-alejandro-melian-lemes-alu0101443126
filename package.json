@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "save": "git ci -am developing; git push -u origin main; git push -u alejandro main"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
