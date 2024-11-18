@@ -1,5 +1,5 @@
 // pages/_app.js
-import '../styles/bleed.css'
+import '../styles/Bleed.module.css'
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
