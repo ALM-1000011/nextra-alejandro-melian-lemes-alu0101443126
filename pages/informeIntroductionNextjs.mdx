@@ -1,5 +1,5 @@
 ---
-title: Informe Práctica 07: Introducción a Next.js
+title: Informe Práctica 07 Introducción a Next.js
 description: Implementación de `getServerSideProps` y rutas dinámicas de Next.js en un buscador de repositorios de GitHub.
 date: 2024-12-01
 tags:
@@ -19,8 +19,7 @@ En esta práctica, se desarrolló una aplicación web con **Next.js** que permit
 
 La función `getServerSideProps` de Next.js fue utilizada para obtener los datos de los repositorios de GitHub directamente en el servidor. Esto garantiza que los datos estén disponibles antes de renderizar la página y evita la carga de datos en el cliente.
 
-'''jsx
-import Link from 'next/link'
+```jsx
 
 export const getServerSideProps = async (context) => {
   const username = context.params?.username;
@@ -76,7 +75,7 @@ export default function UserRepos({ repos, username }) {
     </div>
   );
 }
-'''
+```
 
 `getServerSideProps` es una función asincrónica que se ejecuta en el servidor y devuelve los datos necesarios para renderizar la página. En este caso, se obtienen los repositorios de GitHub del usuario especificado en la URL y se pasan como propiedades al componente `UserRepos`.
 En general, `getServerSideProps` es útil para obtener datos dinámicos en el servidor y proporcionarlos a la página antes de que se renderice en el cliente.
@@ -87,12 +86,13 @@ El uso de rutas dinámicas en Next.js permite crear páginas que responden a dif
 En el nombre del archivo de la página, se incluyó el parámetro dinámico `username` entre corchetes para indicar que es una ruta dinámica. Tanto en el archivo js como en el jsx.
 <FileTree>
     <FileTree.Folder name="pages" defaultOpen>
-        <FileTree.Folder.name="api" />
-        <FileTree.FOlder.name="github-repos" />
+        <FileTree.Folder name="api" />
+        <FileTree.Folder name="github-repos" />
         <FileTree.File name="[username].js" />
-    <FileTree.Folder.name="user" />
-    <FileTree.File name="[username].jsx" />
+        <FileTree.Folder name="user" />
+        <FileTree.File name="[username].jsx" />
     </FileTree.Folder>
+</FileTree>
 
 De esta manera, al acceder a la URL `/user/[username]`, se muestra la lista de repositorios del usuario correspondiente. La ruta dinámica permite crear páginas personalizadas para cada usuario de GitHub sin tener que crear una página para cada usuario individualmente.
 
@@ -102,7 +102,7 @@ La página principal contiene un formulario de búsqueda para repositorios de Gi
 
 **Vista previa de la página principal:**
 
-![Formulario de búsqueda](enlace-imagen-aqui)
+![Formulario de búsqueda]()
 
 ## ¿Qué se ejecuta en el cliente y qué en el servidor?
 
