@@ -19,7 +19,7 @@ En esta práctica, se desarrolló una aplicación web con **Next.js** que permit
 
 La función `getServerSideProps` de Next.js fue utilizada para obtener los datos de los repositorios de GitHub directamente en el servidor. Esto garantiza que los datos estén disponibles antes de renderizar la página y evita la carga de datos en el cliente.
 
-```jsx
+````jsx filename="CodeExtension.jsx" copy {2} showLineNumbers 
 
 export const getServerSideProps = async (context) => {
   const username = context.params?.username;
@@ -75,7 +75,7 @@ export default function UserRepos({ repos, username }) {
     </div>
   );
 }
-```
+````
 
 `getServerSideProps` es una función asincrónica que se ejecuta en el servidor y devuelve los datos necesarios para renderizar la página. En este caso, se obtienen los repositorios de GitHub del usuario especificado en la URL y se pasan como propiedades al componente `UserRepos`.
 En general, `getServerSideProps` es útil para obtener datos dinámicos en el servidor y proporcionarlos a la página antes de que se renderice en el cliente.
@@ -96,14 +96,84 @@ En el nombre del archivo de la página, se incluyó el parámetro dinámico `use
 
 De esta manera, al acceder a la URL `/user/[username]`, se muestra la lista de repositorios del usuario correspondiente. La ruta dinámica permite crear páginas personalizadas para cada usuario de GitHub sin tener que crear una página para cada usuario individualmente.
 
+````jsx filename="[username].jsx" copy {4} {7} {37} showLineNumbers 
+import Link from 'next/link'
+
+export const getServerSideProps = async (context) => {
+  const username = context.params?.username;
+
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}/repos`);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch repos');
+    }
+    
+    // Asegúrate de que la respuesta no esté vacía
+    const repos = await response.json();
+    
+
+    return {
+      props: {
+        repos,
+        username,
+      },
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      props: {
+        repos: [],
+        username,
+      },
+    };
+  }
+}
+
+export default function UserRepos({ repos, username }) {
+  return (
+    <div className="mt-4">
+      <h2 className="text-xl font-semibold mb-2">{username}'s Repositories</h2>
+      {repos.length > 0 ? (
+        <ul className="list-disc pl-5">
+          {repos.map((repo) => (
+            <li key={repo.id} className="mb-1">
+              <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                {repo.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No repositories found.</p>
+      )}
+      <Link href="/" className="mt-4 inline-block text-blue-500 hover:underline bg-blue-highlight">
+        Volver a la página de inicio
+        <br />
+      </Link>
+      <Link href="/search" className="mt-4 inline-block text-blue-500 hover:underline bg-blue-highlight">
+        Volver a la página de búsqueda
+      </Link>
+    </div>
+  );
+}
+````
+
 ## Contenido de la página principal
 
 La página principal contiene un formulario de búsqueda para repositorios de GitHub. El usuario introduce un nombre de usuario de GitHub y, al enviar el formulario, se muestran los repositorios correspondientes.
 
 **Vista previa de la página principal:**
 
-![Formulario de búsqueda]()
-
+Primera vista del formulario de búsqueda:
+![Formulario de búsqueda](/images/Buscador.png)
+---
+Introduciendo valores en el formulario:
+![Formulario de búsqueda](/images/buscadorcasiano.png)
+---
+Resultados de la búsqueda:
+![Resultados de la búsqueda](/images/resultadobuscadorcasiano.png)
+---
 ## ¿Qué se ejecuta en el cliente y qué en el servidor?
 
 - **En el cliente:** Se ejecuta la lógica de la interfaz de usuario, la navegación entre las páginas, y la actualización de la interfaz.
