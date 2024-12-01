@@ -50,6 +50,10 @@ export default function UserRepos({ repos, username }) {
       )}
       <Link href="/" className="mt-4 inline-block text-blue-500 hover:underline bg-blue-highlight">
         Volver a la página de inicio
+        <br />
+      </Link>
+      <Link href="/search" className="mt-4 inline-block text-blue-500 hover:underline bg-blue-highlight">
+        Volver a la página de búsqueda
       </Link>
     </div>
   );
