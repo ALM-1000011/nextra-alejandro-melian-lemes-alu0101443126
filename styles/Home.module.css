@@ -1,0 +1,5 @@
+.bg-blue-highlight {
+  background-color: #e0f7fa; /* Color de fondo azul claro */
+  padding: 5px; /* Espaciado interno para que el fondo sea más visible */
+  border-radius: 3px; /* Bordes redondeados opcionales */
+}

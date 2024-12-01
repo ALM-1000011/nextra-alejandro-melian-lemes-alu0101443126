@@ -6,5 +6,6 @@ export default {
     sancocho: 'Sancocho',
     caldoverde: 'Caldo Verde',
     gachas: 'Gachas',
-    informe: 'Informe de la Práctica 06'
+    informe: 'Informe de la Práctica 06',
+    informeIntroductionNextjs: 'Informe: Introducción a Next.js'
   }
