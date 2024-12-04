@@ -15,6 +15,7 @@ export default async function handler(req, res) {
     if (!response.ok) throw new Error('Failed to fetch repos');
 
     const repos = await response.json();
+    let simplifiedRepos = repos.map(({ id, name, html_url }) => ({ id, name, html_url }));
     res.status(200).json(repos);
   } catch (error) {
     console.error(error);
