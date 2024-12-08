@@ -7,5 +7,6 @@ export default {
     caldoverde: 'Caldo Verde',
     gachas: 'Gachas',
     informe: 'Informe de la Práctica 06 Introducción a Nextra',
-    informeIntroductionNextjs: 'Informe de la Práctica 07 Introducción a Next.js'
+    informeIntroductionNextjs: 'Informe de la Práctica 07 Introducción a Next.js',
+    login: 'Login'
   }
