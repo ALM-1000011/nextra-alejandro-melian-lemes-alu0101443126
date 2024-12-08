@@ -4,13 +4,13 @@ export const getServerSideProps = async (context) => {
   const username = context.params?.username;
 
   try {
-    const response = await fetch(`https://api.github.com/users/${username}/repos`);
+    const response = await fetch(`http://localhost:3000/api/github-repos/${username}`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch repos');
     }
     
-    // Asegúrate de que la respuesta no esté vacía
+
     const repos = await response.json();
     
 
