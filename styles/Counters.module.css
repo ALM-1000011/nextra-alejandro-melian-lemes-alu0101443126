@@ -32,4 +32,26 @@
     margin: 20px 0;
     border: 1px solid #ccc;
   }
-  
+
+.background {
+  background-color: #005bb5;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.separator {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+}
