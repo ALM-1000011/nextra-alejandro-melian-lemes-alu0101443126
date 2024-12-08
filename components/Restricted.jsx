@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession, signOut } from "next-auth/react" // https://next-auth.js.org/getting-started/client#usesession
-import styles from './styles/Counters.module.css'
+import styles from '../styles/Counters.module.css'
 
 export default function User() {
   const { data: session, status } = useSession()
