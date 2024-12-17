@@ -10,7 +10,7 @@
     "@mermaid-js/mermaid-cli": "^11.4.0",
     "mathjs": "^13.2.1",
     "next": "^15.0.3",
-    "next-auth": "^4.24.10",
+    "next-auth": "^4.24.11",
     "nextra": "^3.2.3",
     "nextra-theme-blog": "^3.2.3",
     "nextra-theme-docs": "^3.2.3",
