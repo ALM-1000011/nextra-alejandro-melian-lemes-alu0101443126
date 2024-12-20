@@ -27,9 +27,9 @@ npm install next-auth
 
 ## 🌐 Creación de la ruta API  
 
-Creamos una ruta API para manejar las solicitudes de autenticación. Añadimos el archivo `pages/api/auth/[...nextauth].js` con el siguiente contenido:  
+Creamos una ruta API para manejar las solicitudes de autenticación. Añadimos el archivo `pages/api/auth/[.nextauth].js` con el siguiente contenido:  
 
-```javascript filename="[...nextauth].js" copy showLineNumbers
+```javascript filename="[.nextauth].js" copy showLineNumbers
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -57,11 +57,11 @@ Para habilitar la autenticación mediante GitHub, generamos un **ID de cliente**
 
 1. Accedemos al panel de desarrolladores de GitHub.  
 2. Creamos una nueva aplicación OAuth seleccionando **"New OAuth App"**.  
-   ![Crear nueva aplicación OAuth](../images/oAuthGithub.png)  
+   ![Crear nueva aplicación OAuth](/images/oAuthGithub.png)  
 3. Completamos los campos requeridos (URL de autorización y callback).  
-   ![Rellenar campos de la aplicación OAuth](../images/direccionesCallback.png)  
+   ![Rellenar campos de la aplicación OAuth](/images/direccionesCallback.png)  
 4. Guardamos el **Client ID** y el **Client Secret** generados.  
-   ![Copiar ID y secreto de cliente](../images/tokens.png)  
+   ![Copiar ID y secreto de cliente](/images/tokens.png)  
 
 ---
 
@@ -79,7 +79,7 @@ Pasos:
 3. Añadimos las variables con sus valores correspondientes.  
 4. Guardamos los cambios y desplegamos el proyecto.  
 
-![Variables de Entorno en Vercel](../images/variablesvercel.png)
+![Variables de Entorno en Vercel](/images/variablesvercel.png)
 
 ---
 
@@ -90,10 +90,10 @@ Añadimos el componente **`SessionProvider`** al archivo `_app.jsx` para gestion
 ```javascript filename="_app.jsx" copy showLineNumbers
 import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
+export default function App({ Component, pageProps: { session, .pageProps } }) {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <Component {.pageProps} />
     </SessionProvider>
   );
 }
@@ -111,7 +111,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function LoginBtn() {
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <p>Loading.</p>;
 
   if (session) {
     return (
@@ -150,7 +150,7 @@ Creamos un componente **`Restricted.jsx`** para mostrar contenido restringido ú
 "use client";
 
 import { useSession } from "next-auth/react";
-import styles from "../styles/Counters.module.css";
+import styles from "/styles/Counters.module.css";
 
 export default function Restricted() {
   const { data: session, status } = useSession();
@@ -194,8 +194,8 @@ Este contenido es visible para todos los usuarios.
 
 | Estado       | Vista                           |
 |--------------|---------------------------------|
-| **Sin sesión** | ![Sin iniciar sesión](../images/Noiniciadorestricted.png) |
-| **Con sesión** | ![Sesión iniciada](../images/Restrictediniciado.png) |
+| **Sin sesión** | ![Sin iniciar sesión](/images/Noiniciadorestricted.png) |
+| **Con sesión** | ![Sesión iniciada](/images/Restrictediniciado.png) |
 
 ---
 
