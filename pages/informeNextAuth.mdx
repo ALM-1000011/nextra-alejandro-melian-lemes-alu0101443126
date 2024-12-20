@@ -1,0 +1,210 @@
+---
+title: Informe Práctica 08 NextAuth  
+description: Implementación de autenticación de usuarios en Nextra con NextAuth  
+date: 2024-12-20  
+tags:  
+  - Nextra  
+  - NextAuth  
+  - Vercel  
+  - GitHub  
+---
+
+# 🛡️ Implementación de NextAuth en Nextra  
+
+En esta práctica hemos incorporado un sistema de autenticación para nuestra página de **Nextra** utilizando **NextAuth** y el proveedor **GitHub**. A continuación, exploraremos cada paso del proceso.
+
+---
+
+## 🚀 Instalación de NextAuth  
+
+Para comenzar, añadimos el paquete de NextAuth a nuestro proyecto ejecutando el siguiente comando en la terminal:  
+
+///bash
+npm install next-auth
+///
+
+---
+
+## 🌐 Creación de la ruta API  
+
+Creamos una ruta API para manejar las solicitudes de autenticación. Añadimos el archivo `pages/api/auth/[...nextauth].js` con el siguiente contenido:  
+
+///javascript filename="[...nextauth].js" copy showLineNumbers
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+
+export const authOptions = {
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+export default NextAuth(authOptions);
+///
+
+### ❓ ¿Por qué `[...nextauth].js`?  
+El nombre del archivo permite que **NextAuth** maneje todas las solicitudes relacionadas con autenticación desde una única ruta dinámica.  
+
+---
+
+## 🛠️ Configuración en GitHub  
+
+Para habilitar la autenticación mediante GitHub, generamos un **ID de cliente** y un **secreto de cliente** en [GitHub Developer Settings](https://github.com/settings/apps):  
+
+1. Accedemos al panel de desarrolladores de GitHub.  
+2. Creamos una nueva aplicación OAuth seleccionando **"New OAuth App"**.  
+   ![Crear nueva aplicación OAuth](../images/oAuthGithub.png)  
+3. Completamos los campos requeridos (URL de autorización y callback).  
+   ![Rellenar campos de la aplicación OAuth](../images/direccionesCallback.png)  
+4. Guardamos el **Client ID** y el **Client Secret** generados.  
+   ![Copiar ID y secreto de cliente](../images/tokens.png)  
+
+---
+
+## 🔒 Configuración de variables de entorno  
+
+Para proteger nuestras credenciales, añadimos las siguientes variables de entorno en **Vercel**:  
+
+- **GITHUB_ID**  
+- **GITHUB_SECRET**  
+- **NEXTAUTH_SECRET**  
+
+Pasos:  
+1. Accedemos a Vercel y seleccionamos nuestro proyecto.  
+2. Vamos a **Settings → Environment Variables**.  
+3. Añadimos las variables con sus valores correspondientes.  
+4. Guardamos los cambios y desplegamos el proyecto.  
+
+![Variables de Entorno en Vercel](../images/variablesvercel.png)
+
+---
+
+## 🧩 Modificación del `_app.jsx`  
+
+Añadimos el componente **`SessionProvider`** al archivo `_app.jsx` para gestionar las sesiones. Este es el código actualizado:  
+
+///javascript filename="_app.jsx" copy showLineNumbers
+import { SessionProvider } from "next-auth/react";
+
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
+}
+///
+
+---
+
+## 👤 Creación del botón de inicio de sesión  
+
+Creamos un componente **`login-btn.jsx`** para gestionar el inicio y cierre de sesión:  
+
+///javascript filename="login-btn.jsx" copy showLineNumbers
+import { useSession, signIn, signOut } from "next-auth/react";
+
+export default function LoginBtn() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") return <p>Loading...</p>;
+
+  if (session) {
+    return (
+      <>
+        <p>Signed in as {session.user.email}</p>
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <p>Not signed in</p>
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
+  );
+}
+///
+
+### 💡 Cómo usar este componente  
+Basta con importarlo en una página MDX y añadirlo:  
+
+///mdx
+import LoginBtn from '@/components/login-btn'
+
+<LoginBtn />
+///
+
+---
+
+## 🔐 Protección de rutas  
+
+Creamos un componente **`Restricted.jsx`** para mostrar contenido restringido únicamente a usuarios autenticados:  
+
+///javascript filename="Restricted.jsx" copy showLineNumbers
+"use client";
+
+import { useSession } from "next-auth/react";
+import styles from "../styles/Counters.module.css";
+
+export default function Restricted() {
+  const { data: session, status } = useSession();
+
+  if (status === "authenticated") {
+    return (
+      <div className={styles.container}>
+        <h2>Welcome to the restricted area</h2>
+        <ul>
+          <li>
+            <img src={session.user.image} alt={session.user.name} width="50" />
+          </li>
+          <li>Email: {session.user.email}</li>
+          <li>Name: {session.user.name}</li>
+        </ul>
+      </div>
+    );
+  }
+
+  return <a href="/api/auth/signin">Sign in to access this content</a>;
+}
+///
+
+Añadimos este componente a una página MDX para que sea accesible:  
+
+///mdx
+import Restricted from '@/components/Restricted'
+
+<Restricted />
+
+## Public Content  
+Este contenido es visible para todos los usuarios.
+///
+
+---
+
+## 📊 Resultados  
+
+- Los usuarios no autenticados verán un botón para iniciar sesión.  
+- Los usuarios autenticados tendrán acceso a contenido restringido y podrán cerrar sesión.  
+
+| Estado       | Vista                           |
+|--------------|---------------------------------|
+| **Sin sesión** | ![Sin iniciar sesión](../images/Noiniciadorestricted.png) |
+| **Con sesión** | ![Sesión iniciada](../images/Restrictediniciado.png) |
+
+---
+
+## Básicamente  
+
+Hemos implementado un sistema de autenticación robusto utilizando **NextAuth** y el proveedor **GitHub**, logrando:  
+
+1. Protección de rutas y contenido.  
+2. Gestión segura de credenciales mediante variables de entorno.  
+3. Integración fluida con **Nextra** y **Vercel**.  
+
+Con esta implementación, mejoramos la seguridad de nuestra aplicación y la experiencia del usuario (teóricamente).
