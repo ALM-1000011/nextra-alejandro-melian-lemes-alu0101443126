@@ -1,29 +1,35 @@
 ---
-title: Informe Práctica 07 Introducción a Next.js
-description: Implementación de `getServerSideProps` y rutas dinámicas de Next.js en un buscador de repositorios de GitHub.
-date: 2024-12-01
-tags:
-  - Nextra
-  - Next.js
-  - Vercel
-  - GitHub
+title: Informe Práctica 08 NextAuth  
+description: Implementación de autenticación de usuarios en Nextra con NextAuth  
+date: 2024-12-20  
+tags:  
+  - Nextra  
+  - NextAuth  
+  - Vercel  
+  - GitHub  
 ---
 
-Para el desarrollo de esta práctica hemos aplicado un método de autenticación de usuarios para nuestra página de Nextra.
-Concretamente, utilizando el 'provider' de Github, veamos cómo lo hemos hecho.
+# 🛡️ Implementación de NextAuth en Nextra  
 
-## Configuración de NextAuth
+En esta práctica hemos incorporado un sistema de autenticación para nuestra página de **Nextra** utilizando **NextAuth** y el proveedor **GitHub**. A continuación, exploraremos cada paso del proceso.
 
-Para comenzar, hemos instalado el paquete de NextAuth en nuestro proyecto de Nextra. Para ello, hemos ejecutado el siguiente comando:
+---
 
-```bash
+## 🚀 Instalación de NextAuth  
+
+Para comenzar, añadimos el paquete de NextAuth a nuestro proyecto ejecutando el siguiente comando en la terminal:  
+
+///bash
 npm install next-auth
-```
-## Adición de la ruta API
+///
 
-A continuación, hemos añadido una ruta API en nuestro proyecto de Next.js para manejar la autenticación de usuarios. Para ello, hemos creado un archivo `pages/api/auth/[...nextauth].js` con el siguiente contenido:
+---
 
-```javascript filename="[...nextauth].js" copy showLineNumbers 
+## 🌐 Creación de la ruta API  
+
+Creamos una ruta API para manejar las solicitudes de autenticación. Añadimos el archivo `pages/api/auth/[...nextauth].js` con el siguiente contenido:  
+
+///javascript filename="[...nextauth].js" copy showLineNumbers
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -34,145 +40,171 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET, // Agregar el secret aquís
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
-```
-¿Pero por qué el nombre del fichero es `[...nextauth].js`? Porque NextAuth utiliza una API de rutas dinámicas para manejar las solicitudes de autenticación. Al utilizar `[...nextauth].js`, estamos permitiendo que NextAuth maneje todas las solicitudes de autenticación en una sola ruta.
+///
 
-La explicación del código en unas palabras es básicamente la siguiente:
-- Importamos NextAuth y el proveedor de Github.
-- Configuramos las opciones de autenticación, incluyendo el ID y el secreto de la aplicación de Github.
-- Exportamos las opciones de autenticación y la función NextAuth con esas opciones.
+### ❓ ¿Por qué `[...nextauth].js`?  
+El nombre del archivo permite que **NextAuth** maneje todas las solicitudes relacionadas con autenticación desde una única ruta dinámica.  
 
-Pero claro, deberemos:
+---
 
-## Generar Tokens mediante Github
+## 🛠️ Configuración en GitHub  
 
-Para poder autenticar a los usuarios a través de Github, necesitamos generar un ID y un secreto de cliente en la página de desarrolladores de Github. Para ello, debemos seguir los siguientes pasos:
-- Iniciar sesión en Github y dirigirnos a la página de [desarrolladores de Github](https://github.com/settings/apps)
-- Hacer clic en "New OAuth App" para crear una nueva aplicación.
-- Rellenar los campos obligatorios, incluyendo la URL de autorización y la URL de redirección (callback).
-- Una vez creada la aplicación, copiar el ID de cliente y el secreto de cliente y guardarlos.
-- Añadir el ID y el secreto de cliente a las variables de entorno de nuestro proyecto de Next.js en ¡Vercel!.
+Para habilitar la autenticación mediante GitHub, generamos un **ID de cliente** y un **secreto de cliente** en [GitHub Developer Settings](https://github.com/settings/apps):  
 
-## Configuración de las variables de entorno
+1. Accedemos al panel de desarrolladores de GitHub.  
+2. Creamos una nueva aplicación OAuth seleccionando **"New OAuth App"**.  
+   ![Crear nueva aplicación OAuth](../images/oAuthGithub.png)  
+3. Completamos los campos requeridos (URL de autorización y callback).  
+   ![Rellenar campos de la aplicación OAuth](../images/direccionesCallback.png)  
+4. Guardamos el **Client ID** y el **Client Secret** generados.  
+   ![Copiar ID y secreto de cliente](../images/tokens.png)  
 
-Para proteger nuestras credenciales de Github, hemos añadido las variables de entorno `GITHUB_ID` y `GITHUB_SECRET` a nuestro proyecto de Next.js en Vercel. Para ello, hemos seguido los siguientes pasos:
-- Iniciar sesión en Vercel y seleccionar el proyecto de Next.js dentro de nuestro Dashboard.
-- Ir a la sección de "Settings" y hacer clic en "Environment Variables".
-- Añadir las variables de entorno `GITHUB_ID` y `GITHUB_SECRET` con los valores correspondientes.
-- Además de la variable de entorno NextAuth `NEXTAUTH_SECRET`.
-- Guardar los cambios y desplegar el proyecto en Vercel.
+---
 
-## Modificación del _app.jsx para añadir el 'SessionProvider'
+## 🔒 Configuración de variables de entorno  
 
-Hemos modificado el archivo `_app.jsx` de nuestro proyecto de Nextra para añadir el `SessionProvider` de NextAuth. Para ello, hemos añadido el siguiente código al archivo `_app.jsx`:
+Para proteger nuestras credenciales, añadimos las siguientes variables de entorno en **Vercel**:  
 
-```javascript filename="_app.jsx" copy showLineNumbers 
-import { SessionProvider } from "next-auth/react"
+- **GITHUB_ID**  
+- **GITHUB_SECRET**  
+- **NEXTAUTH_SECRET**  
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}) {
+Pasos:  
+1. Accedemos a Vercel y seleccionamos nuestro proyecto.  
+2. Vamos a **Settings → Environment Variables**.  
+3. Añadimos las variables con sus valores correspondientes.  
+4. Guardamos los cambios y desplegamos el proyecto.  
+
+![Variables de Entorno en Vercel](../images/variablesvercel.png)
+
+---
+
+## 🧩 Modificación del `_app.jsx`  
+
+Añadimos el componente **`SessionProvider`** al archivo `_app.jsx` para gestionar las sesiones. Este es el código actualizado:  
+
+///javascript filename="_app.jsx" copy showLineNumbers
+import { SessionProvider } from "next-auth/react";
+
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
-  )
+  );
 }
-```
+///
 
-## Creación del componente 'login-btn.jsx'
+---
 
-Para permitir a los usuarios iniciar sesión en nuestra página de Nextra, hemos creado un componente `login-btn.jsx` con el siguiente contenido:
+## 👤 Creación del botón de inicio de sesión  
 
-```javascript filename="login-btn.jsx" copy showLineNumbers 
-import { useSession, signIn, signOut } from "next-auth/react"
+Creamos un componente **`login-btn.jsx`** para gestionar el inicio y cierre de sesión:  
 
-export default function Component() {
-  const { data: session, status: status } = useSession()
-  if (status === "loading") {
-    return <p>Loading...</p>
-  }
+///javascript filename="login-btn.jsx" copy showLineNumbers
+import { useSession, signIn, signOut } from "next-auth/react";
+
+export default function LoginBtn() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") return <p>Loading...</p>;
+
   if (session) {
     return (
       <>
-        Signed in as {session.user.email} <br />
+        <p>Signed in as {session.user.email}</p>
         <button onClick={() => signOut()}>Sign out</button>
       </>
-    )
+    );
   }
+
   return (
     <>
-      Not signed in <br />
+      <p>Not signed in</p>
       <button onClick={() => signIn()}>Sign in</button>
     </>
-  )
+  );
 }
-```
-En dicha componente, hemos utilizado el hook `useSession` de NextAuth para obtener el estado de la sesión del usuario. Dependiendo del estado de la sesión, mostramos un mensaje de "Signed in" o "Not signed in" y un botón para iniciar o cerrar sesión.
-Y claro, debemos usar esta componente en alguna página para hacerla accesible. Por ejemplo, en la página de login:
+///
 
-```mdx filename="informeNextAuth.mdx" copy showLineNumbers 
+### 💡 Cómo usar este componente  
+Basta con importarlo en una página MDX y añadirlo:  
+
+///mdx
 import LoginBtn from '@/components/login-btn'
 
 <LoginBtn />
-```
-Donde simplemente importamos el componente `LoginBtn` y lo añadimos a la página.
+///
 
-## Protección de rutas
+---
 
-Hemos usado el método getServerSession() de NextAuth para proteger las rutas de nuestra página de Nextra. Para ello, hemos creado una componente `Restricted.jsx` con el siguiente contenido:
+## 🔐 Protección de rutas  
 
-```javascript filename="Restricted.jsx" copy showLineNumbers
-"use client"
+Creamos un componente **`Restricted.jsx`** para mostrar contenido restringido únicamente a usuarios autenticados:  
 
-import { useSession, signOut } from "next-auth/react" // https://next-auth.js.org/getting-started/client#usesession
-import styles from '../styles/Counters.module.css'
+///javascript filename="Restricted.jsx" copy showLineNumbers
+"use client";
 
-export default function User() {
-  const { data: session, status } = useSession()
+import { useSession } from "next-auth/react";
+import styles from "../styles/Counters.module.css";
+
+export default function Restricted() {
+  const { data: session, status } = useSession();
 
   if (status === "authenticated") {
-    console.error("***********Session***********")
-    console.error(session)
-      return (
-        <div className={styles.container}> 
-          <br />
-          <hr className={styles.separator} />
-          <br />
-          <h2 className={styles.title}>I want to share with you some secrets ... </h2>
-          <br />
-          This is the user information:
-          <ul className={styles.list}>
-            <li className={styles.listItem}> 
-              <img src={session.user.image} alt={session.user.name} width="32" height="32" className={styles.image} />
-            </li>
-            <li className={styles.listItem}><span>Email: {session.user.email}</span></li>
-            <li className={styles.listItem}>Name: {session.user.name}</li>
-          </ul>     
-        </div>
-      )
+    return (
+      <div className={styles.container}>
+        <h2>Welcome to the restricted area</h2>
+        <ul>
+          <li>
+            <img src={session.user.image} alt={session.user.name} width="50" />
+          </li>
+          <li>Email: {session.user.email}</li>
+          <li>Name: {session.user.name}</li>
+        </ul>
+      </div>
+    );
   }
 
-  return <a href="/api/auth/signin" className={styles.button}>Sign in</a>
+  return <a href="/api/auth/signin">Sign in to access this content</a>;
 }
-```
-En dicha componente, hemos utilizado el hook `useSession` de NextAuth para obtener el estado de la sesión del usuario. Dependiendo del estado de la sesión, mostramos la información del usuario o un enlace para iniciar sesión.
-También hemos creado una página `restricted.mdx` con el siguiente contenido:
+///
 
-```mdx filename="restricted.mdx" copy showLineNumbers
+Añadimos este componente a una página MDX para que sea accesible:  
+
+///mdx
 import Restricted from '@/components/Restricted'
 
 <Restricted />
 
-## Public content
+## Public Content  
+Este contenido es visible para todos los usuarios.
+///
 
-Este contenido es público y puede ser visto por cualquier persona.
-```
+---
 
-Donde simplemente importamos el componente `Restricted` y lo añadimos a la página.
+## 📊 Resultados  
 
+- Los usuarios no autenticados verán un botón para iniciar sesión.  
+- Los usuarios autenticados tendrán acceso a contenido restringido y podrán cerrar sesión.  
+
+| Estado       | Vista                           |
+|--------------|---------------------------------|
+| **Sin sesión** | ![Sin iniciar sesión](../images/Noiniciadorestricted.png) |
+| **Con sesión** | ![Sesión iniciada](../images/Restrictediniciado.png) |
+
+---
+
+## Básicamente  
+
+Hemos implementado un sistema de autenticación robusto utilizando **NextAuth** y el proveedor **GitHub**, logrando:  
+
+1. Protección de rutas y contenido.  
+2. Gestión segura de credenciales mediante variables de entorno.  
+3. Integración fluida con **Nextra** y **Vercel**.  
+
+Con esta implementación, mejoramos la seguridad de nuestra aplicación y la experiencia del usuario (teóricamente).
