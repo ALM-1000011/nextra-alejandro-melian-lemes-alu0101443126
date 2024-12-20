@@ -19,9 +19,9 @@ En esta práctica hemos incorporado un sistema de autenticación para nuestra p�
 
 Para comenzar, añadimos el paquete de NextAuth a nuestro proyecto ejecutando el siguiente comando en la terminal:  
 
-///bash
+```bash
 npm install next-auth
-///
+```
 
 ---
 
@@ -29,7 +29,7 @@ npm install next-auth
 
 Creamos una ruta API para manejar las solicitudes de autenticación. Añadimos el archivo `pages/api/auth/[...nextauth].js` con el siguiente contenido:  
 
-///javascript filename="[...nextauth].js" copy showLineNumbers
+```javascript filename="[...nextauth].js" copy showLineNumbers
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -44,7 +44,7 @@ export const authOptions = {
 };
 
 export default NextAuth(authOptions);
-///
+```
 
 ### ❓ ¿Por qué `[...nextauth].js`?  
 El nombre del archivo permite que **NextAuth** maneje todas las solicitudes relacionadas con autenticación desde una única ruta dinámica.  
@@ -87,7 +87,7 @@ Pasos:
 
 Añadimos el componente **`SessionProvider`** al archivo `_app.jsx` para gestionar las sesiones. Este es el código actualizado:  
 
-///javascript filename="_app.jsx" copy showLineNumbers
+```javascript filename="_app.jsx" copy showLineNumbers
 import { SessionProvider } from "next-auth/react";
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
@@ -97,7 +97,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     </SessionProvider>
   );
 }
-///
+```
 
 ---
 
@@ -105,7 +105,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
 Creamos un componente **`login-btn.jsx`** para gestionar el inicio y cierre de sesión:  
 
-///javascript filename="login-btn.jsx" copy showLineNumbers
+```javascript filename="login-btn.jsx" copy showLineNumbers
 import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function LoginBtn() {
@@ -129,16 +129,16 @@ export default function LoginBtn() {
     </>
   );
 }
-///
+```
 
 ### 💡 Cómo usar este componente  
 Basta con importarlo en una página MDX y añadirlo:  
 
-///mdx
+```mdx
 import LoginBtn from '@/components/login-btn'
 
 <LoginBtn />
-///
+```
 
 ---
 
@@ -146,7 +146,7 @@ import LoginBtn from '@/components/login-btn'
 
 Creamos un componente **`Restricted.jsx`** para mostrar contenido restringido únicamente a usuarios autenticados:  
 
-///javascript filename="Restricted.jsx" copy showLineNumbers
+```javascript filename="Restricted.jsx" copy showLineNumbers
 "use client";
 
 import { useSession } from "next-auth/react";
@@ -172,18 +172,18 @@ export default function Restricted() {
 
   return <a href="/api/auth/signin">Sign in to access this content</a>;
 }
-///
+```
 
 Añadimos este componente a una página MDX para que sea accesible:  
 
-///mdx
+```mdx
 import Restricted from '@/components/Restricted'
 
 <Restricted />
 
 ## Public Content  
 Este contenido es visible para todos los usuarios.
-///
+```
 
 ---
 
